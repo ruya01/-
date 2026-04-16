@@ -1,0 +1,1200 @@
+
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: var(--font-sans); direction: rtl; }
+
+:root {
+  --c-primary: #534AB7;
+  --c-primary-light: #EEEDFE;
+  --c-primary-mid: #AFA9EC;
+  --c-teal: #1D9E75;
+  --c-teal-light: #E1F5EE;
+  --c-amber: #BA7517;
+  --c-amber-light: #FAEEDA;
+  --c-coral: #D85A30;
+  --c-coral-light: #FAECE7;
+  --c-green: #639922;
+  --c-green-light: #EAF3DE;
+}
+
+.container { max-width: 100%; padding: 1.5rem 1rem; }
+
+.header {
+  text-align: center;
+  margin-bottom: 2rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 0.5px solid var(--color-border-tertiary);
+}
+
+.logo {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 0.75rem;
+}
+
+.logo-icon {
+  width: 48px; height: 48px;
+  background: var(--c-primary);
+  border-radius: var(--border-radius-lg);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 22px; color: white; font-weight: 500;
+}
+
+.logo-text { font-size: 22px; font-weight: 500; color: var(--color-text-primary); }
+.logo-sub { font-size: 13px; color: var(--color-text-secondary); margin-top: 4px; }
+
+.tabs {
+  display: flex;
+  gap: 4px;
+  margin-bottom: 1.5rem;
+  border-bottom: 0.5px solid var(--color-border-tertiary);
+  flex-wrap: wrap;
+}
+
+.tab {
+  padding: 8px 16px;
+  font-size: 13px;
+  border: none;
+  background: none;
+  color: var(--color-text-secondary);
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  margin-bottom: -0.5px;
+  transition: color 0.15s;
+  font-family: var(--font-sans);
+}
+
+.tab:hover { color: var(--color-text-primary); }
+.tab.active { color: var(--c-primary); border-bottom-color: var(--c-primary); font-weight: 500; }
+
+.section { display: none; }
+.section.active { display: block; }
+
+/* IDE */
+.ide-layout {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+@media (max-width: 640px) {
+  .ide-layout { grid-template-columns: 1fr; }
+}
+
+.ide-panel {
+  background: var(--color-background-secondary);
+  border: 0.5px solid var(--color-border-tertiary);
+  border-radius: var(--border-radius-lg);
+  overflow: hidden;
+}
+
+.ide-panel-header {
+  padding: 8px 14px;
+  background: var(--color-background-primary);
+  border-bottom: 0.5px solid var(--color-border-tertiary);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.ide-panel-title { font-size: 13px; font-weight: 500; color: var(--color-text-secondary); }
+
+.ide-textarea {
+  width: 100%;
+  min-height: 260px;
+  border: none;
+  background: transparent;
+  padding: 14px;
+  font-family: var(--font-mono);
+  font-size: 13px;
+  color: var(--color-text-primary);
+  resize: vertical;
+  outline: none;
+  direction: rtl;
+  line-height: 1.7;
+}
+
+.ide-output {
+  min-height: 260px;
+  padding: 14px;
+  font-family: var(--font-mono);
+  font-size: 13px;
+  color: var(--color-text-primary);
+  white-space: pre-wrap;
+  direction: rtl;
+  line-height: 1.7;
+}
+
+.output-success { color: var(--c-teal); }
+.output-error { color: var(--c-coral); }
+.output-line { margin: 2px 0; }
+
+.run-btn {
+  padding: 7px 18px;
+  background: var(--c-primary);
+  color: white;
+  border: none;
+  border-radius: var(--border-radius-md);
+  font-size: 13px;
+  cursor: pointer;
+  font-family: var(--font-sans);
+  transition: opacity 0.15s;
+}
+.run-btn:hover { opacity: 0.85; }
+
+.examples-bar {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 12px;
+  flex-wrap: wrap;
+}
+
+.ex-btn {
+  padding: 5px 12px;
+  background: var(--c-primary-light);
+  color: var(--c-primary);
+  border: 0.5px solid var(--c-primary-mid);
+  border-radius: var(--border-radius-md);
+  font-size: 12px;
+  cursor: pointer;
+  font-family: var(--font-sans);
+}
+.ex-btn:hover { background: var(--c-primary-mid); }
+
+/* Docs */
+.docs-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(0, 1fr));
+  gap: 12px;
+  margin-bottom: 1.5rem;
+}
+
+.card {
+  background: var(--color-background-primary);
+  border: 0.5px solid var(--color-border-tertiary);
+  border-radius: var(--border-radius-lg);
+  padding: 1rem 1.25rem;
+}
+
+.card-title {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--color-text-primary);
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.badge {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: var(--border-radius-md);
+  font-size: 11px;
+  font-weight: 500;
+}
+
+.badge-purple { background: var(--c-primary-light); color: var(--c-primary); }
+.badge-teal { background: var(--c-teal-light); color: var(--c-teal); }
+.badge-amber { background: var(--c-amber-light); color: var(--c-amber); }
+.badge-coral { background: var(--c-coral-light); color: var(--c-coral); }
+.badge-green { background: var(--c-green-light); color: var(--c-green); }
+
+.kw-table { width: 100%; border-collapse: collapse; }
+.kw-table td {
+  padding: 5px 8px;
+  font-size: 13px;
+  border-bottom: 0.5px solid var(--color-border-tertiary);
+  vertical-align: top;
+}
+.kw-table tr:last-child td { border-bottom: none; }
+.kw-ar { font-family: var(--font-mono); color: var(--c-primary); font-weight: 500; }
+.kw-en { color: var(--color-text-secondary); font-size: 12px; }
+.kw-desc { color: var(--color-text-secondary); font-size: 12px; }
+
+.syntax-block {
+  background: var(--color-background-secondary);
+  border: 0.5px solid var(--color-border-tertiary);
+  border-radius: var(--border-radius-md);
+  padding: 10px 14px;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--color-text-primary);
+  direction: rtl;
+  line-height: 1.8;
+  margin: 8px 0;
+  white-space: pre;
+  overflow-x: auto;
+}
+
+.kw { color: var(--c-primary); font-weight: 500; }
+.str { color: var(--c-teal); }
+.num { color: var(--c-amber); }
+.cmt { color: var(--color-text-secondary); font-style: italic; }
+.fn { color: var(--c-coral); }
+.var { color: var(--color-text-primary); }
+
+/* Reference */
+.ref-section { margin-bottom: 1.5rem; }
+.ref-title {
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--color-text-primary);
+  margin-bottom: 10px;
+  padding-bottom: 6px;
+  border-bottom: 0.5px solid var(--color-border-tertiary);
+}
+
+.info-box {
+  background: var(--c-teal-light);
+  border: 0.5px solid var(--c-teal);
+  border-radius: var(--border-radius-md);
+  padding: 10px 14px;
+  font-size: 13px;
+  color: var(--c-teal);
+  margin: 10px 0;
+}
+
+.warn-box {
+  background: var(--c-amber-light);
+  border: 0.5px solid var(--c-amber);
+  border-radius: var(--border-radius-md);
+  padding: 10px 14px;
+  font-size: 13px;
+  color: var(--c-amber);
+  margin: 10px 0;
+}
+
+/* Interpreter */
+.flow-steps {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin: 1rem 0;
+}
+
+.flow-step {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 10px 14px;
+  background: var(--color-background-primary);
+  border: 0.5px solid var(--color-border-tertiary);
+  border-radius: var(--border-radius-md);
+}
+
+.step-num {
+  width: 24px; height: 24px;
+  background: var(--c-primary);
+  color: white;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 12px; font-weight: 500;
+  flex-shrink: 0;
+}
+
+.step-content { flex: 1; }
+.step-title { font-size: 13px; font-weight: 500; color: var(--color-text-primary); }
+.step-desc { font-size: 12px; color: var(--color-text-secondary); margin-top: 2px; }
+
+.section-divider {
+  height: 0.5px;
+  background: var(--color-border-tertiary);
+  margin: 1.5rem 0;
+}
+</style>
+
+<div class="container">
+  <h2 class="sr-only">لغة الضاد — بيئة برمجة عربية تفاعلية</h2>
+
+  <div class="header">
+    <div class="logo">
+      <div class="logo-icon">ض</div>
+      <div>
+        <div class="logo-text">لغة الضاد</div>
+        <div class="logo-sub">لغة برمجة عربية حديثة • مفتوحة المصدر</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="tabs">
+    <button class="tab active" onclick="showTab('ide')">المحاكي التفاعلي</button>
+    <button class="tab" onclick="showTab('syntax')">القواعد النحوية</button>
+    <button class="tab" onclick="showTab('keywords')">الكلمات المفتاحية</button>
+    <button class="tab" onclick="showTab('examples')">أمثلة تعليمية</button>
+    <button class="tab" onclick="showTab('interpreter')">المترجم</button>
+    <button class="tab" onclick="showTab('guide')">دليل الاستخدام</button>
+  </div>
+
+  <!-- IDE Tab -->
+  <div id="tab-ide" class="section active">
+    <div class="examples-bar">
+      <button class="ex-btn" onclick="loadExample('hello')">مرحبا بالعالم</button>
+      <button class="ex-btn" onclick="loadExample('function')">دالة</button>
+      <button class="ex-btn" onclick="loadExample('condition')">شرط</button>
+      <button class="ex-btn" onclick="loadExample('loop')">حلقة</button>
+      <button class="ex-btn" onclick="loadExample('list')">قائمة</button>
+      <button class="ex-btn" onclick="loadExample('dict')">قاموس</button>
+      <button class="ex-btn" onclick="loadExample('full')">برنامج كامل</button>
+    </div>
+
+    <div class="ide-layout">
+      <div class="ide-panel">
+        <div class="ide-panel-header">
+          <span class="ide-panel-title">محرر الكود</span>
+          <button class="run-btn" onclick="runCode()">تشغيل ←</button>
+        </div>
+        <textarea class="ide-textarea" id="code-editor" spellcheck="false" placeholder="اكتب كودك بلغة الضاد هنا..."></textarea>
+      </div>
+      <div class="ide-panel">
+        <div class="ide-panel-header">
+          <span class="ide-panel-title">نتيجة التنفيذ</span>
+          <button class="ex-btn" onclick="clearOutput()">مسح</button>
+        </div>
+        <div class="ide-output" id="output">ابدأ بكتابة الكود أو اختر مثالاً من الأعلى...</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Syntax Tab -->
+  <div id="tab-syntax" class="section">
+    <div class="ref-section">
+      <div class="ref-title">تعريف المتغيرات</div>
+      <div class="syntax-block"><span class="kw">متغير</span> <span class="var">الاسم</span> = <span class="str">"أحمد"</span>
+<span class="kw">متغير</span> <span class="var">العمر</span> = <span class="num">25</span>
+<span class="kw">متغير</span> <span class="var">الراتب</span> = <span class="num">5000.50</span>
+<span class="kw">متغير</span> <span class="var">متزوج</span> = <span class="kw">صحيح</span></div>
+    </div>
+
+    <div class="ref-section">
+      <div class="ref-title">الدوال</div>
+      <div class="syntax-block"><span class="kw">دالة</span> <span class="fn">مرحب</span>(<span class="var">الاسم</span>):
+    <span class="kw">اطبع</span>(<span class="str">"مرحباً يا "</span> + <span class="var">الاسم</span>)
+
+<span class="kw">دالة</span> <span class="fn">جمع</span>(<span class="var">أ</span>, <span class="var">ب</span>):
+    <span class="kw">أرجع</span> <span class="var">أ</span> + <span class="var">ب</span>
+
+<span class="fn">مرحب</span>(<span class="str">"محمد"</span>)
+<span class="kw">متغير</span> <span class="var">النتيجة</span> = <span class="fn">جمع</span>(<span class="num">3</span>, <span class="num">7</span>)</div>
+    </div>
+
+    <div class="ref-section">
+      <div class="ref-title">الجمل الشرطية</div>
+      <div class="syntax-block"><span class="kw">إذا</span> <span class="var">العمر</span> &gt;= <span class="num">18</span>:
+    <span class="kw">اطبع</span>(<span class="str">"بالغ"</span>)
+<span class="kw">وإلا إذا</span> <span class="var">العمر</span> &gt;= <span class="num">13</span>:
+    <span class="kw">اطبع</span>(<span class="str">"مراهق"</span>)
+<span class="kw">غير ذلك</span>:
+    <span class="kw">اطبع</span>(<span class="str">"طفل"</span>)</div>
+    </div>
+
+    <div class="ref-section">
+      <div class="ref-title">الحلقات التكرارية</div>
+      <div class="syntax-block"><span class="kw">كرّر</span> <span class="var">ع</span> <span class="kw">في</span> <span class="fn">نطاق</span>(<span class="num">1</span>, <span class="num">6</span>):
+    <span class="kw">اطبع</span>(<span class="var">ع</span>)
+
+<span class="kw">طالما</span> <span class="var">العداد</span> &lt; <span class="num">5</span>:
+    <span class="kw">اطبع</span>(<span class="var">العداد</span>)
+    <span class="var">العداد</span> = <span class="var">العداد</span> + <span class="num">1</span></div>
+    </div>
+
+    <div class="ref-section">
+      <div class="ref-title">القوائم والقواميس</div>
+      <div class="syntax-block"><span class="kw">متغير</span> <span class="var">الفواكه</span> = [<span class="str">"تفاح"</span>, <span class="str">"موز"</span>, <span class="str">"برتقال"</span>]
+<span class="fn">أضف_إلى</span>(<span class="var">الفواكه</span>, <span class="str">"عنب"</span>)
+<span class="kw">اطبع</span>(<span class="var">الفواكه</span>[<span class="num">0</span>])
+
+<span class="kw">متغير</span> <span class="var">الطالب</span> = {<span class="str">"الاسم"</span>: <span class="str">"سارة"</span>, <span class="str">"الدرجة"</span>: <span class="num">95</span>}
+<span class="kw">اطبع</span>(<span class="var">الطالب</span>[<span class="str">"الاسم"</span>])</div>
+    </div>
+
+    <div class="ref-section">
+      <div class="ref-title">الأخطاء والاستثناءات</div>
+      <div class="syntax-block"><span class="kw">حاول</span>:
+    <span class="kw">متغير</span> <span class="var">الناتج</span> = <span class="num">10</span> / <span class="num">0</span>
+<span class="kw">عند خطأ</span> <span class="var">خ</span>:
+    <span class="kw">اطبع</span>(<span class="str">"حدث خطأ: "</span> + <span class="var">خ</span>)
+<span class="kw">أخيراً</span>:
+    <span class="kw">اطبع</span>(<span class="str">"انتهى التنفيذ"</span>)</div>
+    </div>
+
+    <div class="ref-section">
+      <div class="ref-title">الاستيراد والتعليقات</div>
+      <div class="syntax-block"><span class="cmt"># هذا تعليق في لغة الضاد</span>
+<span class="kw">استورد</span> رياضيات
+<span class="kw">استورد</span> نصوص <span class="kw">من</span> أدوات
+
+<span class="kw">متغير</span> <span class="var">الجذر</span> = رياضيات.<span class="fn">جذر</span>(<span class="num">16</span>)
+<span class="kw">اطبع</span>(<span class="var">الجذر</span>)</div>
+    </div>
+  </div>
+
+  <!-- Keywords Tab -->
+  <div id="tab-keywords" class="section">
+    <div class="docs-grid">
+      <div class="card">
+        <div class="card-title"><span class="badge badge-purple">التحكم</span></div>
+        <table class="kw-table">
+          <tr><td class="kw-ar">إذا</td><td class="kw-en">if</td><td class="kw-desc">شرط رئيسي</td></tr>
+          <tr><td class="kw-ar">وإلا إذا</td><td class="kw-en">elif</td><td class="kw-desc">شرط بديل</td></tr>
+          <tr><td class="kw-ar">غير ذلك</td><td class="kw-en">else</td><td class="kw-desc">الحالة الأخرى</td></tr>
+          <tr><td class="kw-ar">كرّر</td><td class="kw-en">for</td><td class="kw-desc">حلقة تكرار</td></tr>
+          <tr><td class="kw-ar">طالما</td><td class="kw-en">while</td><td class="kw-desc">حلقة شرطية</td></tr>
+          <tr><td class="kw-ar">توقف</td><td class="kw-en">break</td><td class="kw-desc">إيقاف الحلقة</td></tr>
+          <tr><td class="kw-ar">تابع</td><td class="kw-en">continue</td><td class="kw-desc">تخطي التكرار</td></tr>
+        </table>
+      </div>
+      <div class="card">
+        <div class="card-title"><span class="badge badge-teal">الدوال والبيانات</span></div>
+        <table class="kw-table">
+          <tr><td class="kw-ar">دالة</td><td class="kw-en">def</td><td class="kw-desc">تعريف دالة</td></tr>
+          <tr><td class="kw-ar">أرجع</td><td class="kw-en">return</td><td class="kw-desc">إرجاع قيمة</td></tr>
+          <tr><td class="kw-ar">متغير</td><td class="kw-en">var/let</td><td class="kw-desc">تعريف متغير</td></tr>
+          <tr><td class="kw-ar">ثابت</td><td class="kw-en">const</td><td class="kw-desc">تعريف ثابت</td></tr>
+          <tr><td class="kw-ar">فئة</td><td class="kw-en">class</td><td class="kw-desc">تعريف فئة</td></tr>
+          <tr><td class="kw-ar">ورث</td><td class="kw-en">extends</td><td class="kw-desc">الوراثة</td></tr>
+          <tr><td class="kw-ar">ذاتي</td><td class="kw-en">self/this</td><td class="kw-desc">مرجع الكائن</td></tr>
+        </table>
+      </div>
+      <div class="card">
+        <div class="card-title"><span class="badge badge-amber">القيم والعمليات</span></div>
+        <table class="kw-table">
+          <tr><td class="kw-ar">صحيح</td><td class="kw-en">True</td><td class="kw-desc">قيمة منطقية</td></tr>
+          <tr><td class="kw-ar">خطأ</td><td class="kw-en">False</td><td class="kw-desc">قيمة منطقية</td></tr>
+          <tr><td class="kw-ar">فارغ</td><td class="kw-en">None/null</td><td class="kw-desc">لا قيمة</td></tr>
+          <tr><td class="kw-ar">و</td><td class="kw-en">and</td><td class="kw-desc">العطف المنطقي</td></tr>
+          <tr><td class="kw-ar">أو</td><td class="kw-en">or</td><td class="kw-desc">الفصل المنطقي</td></tr>
+          <tr><td class="kw-ar">ليس</td><td class="kw-en">not</td><td class="kw-desc">النفي</td></tr>
+          <tr><td class="kw-ar">في</td><td class="kw-en">in</td><td class="kw-desc">عضوية</td></tr>
+        </table>
+      </div>
+      <div class="card">
+        <div class="card-title"><span class="badge badge-coral">الاستثناءات والأخرى</span></div>
+        <table class="kw-table">
+          <tr><td class="kw-ar">حاول</td><td class="kw-en">try</td><td class="kw-desc">محاولة</td></tr>
+          <tr><td class="kw-ar">عند خطأ</td><td class="kw-en">except</td><td class="kw-desc">معالج الخطأ</td></tr>
+          <tr><td class="kw-ar">أخيراً</td><td class="kw-en">finally</td><td class="kw-desc">تنفيذ دائم</td></tr>
+          <tr><td class="kw-ar">ارفع</td><td class="kw-en">raise</td><td class="kw-desc">رفع استثناء</td></tr>
+          <tr><td class="kw-ar">استورد</td><td class="kw-en">import</td><td class="kw-desc">استيراد وحدة</td></tr>
+          <tr><td class="kw-ar">من</td><td class="kw-en">from</td><td class="kw-desc">مصدر الاستيراد</td></tr>
+          <tr><td class="kw-ar">مجال</td><td class="kw-en">global</td><td class="kw-desc">نطاق عام</td></tr>
+        </table>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title"><span class="badge badge-green">الدوال المدمجة</span></div>
+      <table class="kw-table">
+        <tr><td class="kw-ar">اطبع(...)</td><td class="kw-en">print()</td><td class="kw-desc">طباعة على الشاشة</td></tr>
+        <tr><td class="kw-ar">ادخل(...)</td><td class="kw-en">input()</td><td class="kw-desc">إدخال من المستخدم</td></tr>
+        <tr><td class="kw-ar">نطاق(أ, ب)</td><td class="kw-en">range(a, b)</td><td class="kw-desc">مدى من الأرقام</td></tr>
+        <tr><td class="kw-ar">طول(...)</td><td class="kw-en">len()</td><td class="kw-desc">طول القائمة أو النص</td></tr>
+        <tr><td class="kw-ar">نوع(...)</td><td class="kw-en">type()</td><td class="kw-desc">نوع القيمة</td></tr>
+        <tr><td class="kw-ar">أضف_إلى(ق, ع)</td><td class="kw-en">list.append()</td><td class="kw-desc">إضافة لقائمة</td></tr>
+        <tr><td class="kw-ar">حوّل_رقم(...)</td><td class="kw-en">int()</td><td class="kw-desc">تحويل لرقم صحيح</td></tr>
+        <tr><td class="kw-ar">حوّل_نص(...)</td><td class="kw-en">str()</td><td class="kw-desc">تحويل لنص</td></tr>
+        <tr><td class="kw-ar">مجموع(...)</td><td class="kw-en">sum()</td><td class="kw-desc">مجموع القائمة</td></tr>
+        <tr><td class="kw-ar">أكبر(...)</td><td class="kw-en">max()</td><td class="kw-desc">أكبر قيمة</td></tr>
+        <tr><td class="kw-ar">أصغر(...)</td><td class="kw-en">min()</td><td class="kw-desc">أصغر قيمة</td></tr>
+        <tr><td class="kw-ar">رتّب(...)</td><td class="kw-en">sorted()</td><td class="kw-desc">ترتيب القائمة</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <!-- Examples Tab -->
+  <div id="tab-examples" class="section">
+    <div class="ref-section">
+      <div class="ref-title">1 — مرحباً بالعالم</div>
+      <div class="syntax-block"><span class="kw">اطبع</span>(<span class="str">"مرحباً يا عالم!"</span>)</div>
+    </div>
+
+    <div class="ref-section">
+      <div class="ref-title">2 — دالة حساب المساحة</div>
+      <div class="syntax-block"><span class="kw">دالة</span> <span class="fn">مساحة_مستطيل</span>(<span class="var">الطول</span>, <span class="var">العرض</span>):
+    <span class="kw">متغير</span> <span class="var">المساحة</span> = <span class="var">الطول</span> * <span class="var">العرض</span>
+    <span class="kw">أرجع</span> <span class="var">المساحة</span>
+
+<span class="kw">متغير</span> <span class="var">ناتج</span> = <span class="fn">مساحة_مستطيل</span>(<span class="num">5</span>, <span class="num">3</span>)
+<span class="kw">اطبع</span>(<span class="str">"المساحة: "</span> + <span class="fn">حوّل_نص</span>(<span class="var">ناتج</span>))</div>
+    </div>
+
+    <div class="ref-section">
+      <div class="ref-title">3 — جملة شرطية: تقييم الطالب</div>
+      <div class="syntax-block"><span class="kw">متغير</span> <span class="var">الدرجة</span> = <span class="num">87</span>
+
+<span class="kw">إذا</span> <span class="var">الدرجة</span> >= <span class="num">90</span>:
+    <span class="kw">اطبع</span>(<span class="str">"ممتاز"</span>)
+<span class="kw">وإلا إذا</span> <span class="var">الدرجة</span> >= <span class="num">80</span>:
+    <span class="kw">اطبع</span>(<span class="str">"جيد جداً"</span>)
+<span class="kw">وإلا إذا</span> <span class="var">الدرجة</span> >= <span class="num">70</span>:
+    <span class="kw">اطبع</span>(<span class="str">"جيد"</span>)
+<span class="kw">غير ذلك</span>:
+    <span class="kw">اطبع</span>(<span class="str">"مقبول"</span>)</div>
+    </div>
+
+    <div class="ref-section">
+      <div class="ref-title">4 — حلقة: جدول الضرب</div>
+      <div class="syntax-block"><span class="kw">دالة</span> <span class="fn">جدول_ضرب</span>(<span class="var">الرقم</span>):
+    <span class="kw">اطبع</span>(<span class="str">"جدول ضرب "</span> + <span class="fn">حوّل_نص</span>(<span class="var">الرقم</span>))
+    <span class="kw">كرّر</span> <span class="var">ع</span> <span class="kw">في</span> <span class="fn">نطاق</span>(<span class="num">1</span>, <span class="num">11</span>):
+        <span class="kw">متغير</span> <span class="var">الناتج</span> = <span class="var">الرقم</span> * <span class="var">ع</span>
+        <span class="kw">اطبع</span>(<span class="fn">حوّل_نص</span>(<span class="var">الرقم</span>) + <span class="str">" × "</span> + <span class="fn">حوّل_نص</span>(<span class="var">ع</span>) + <span class="str">" = "</span> + <span class="fn">حوّل_نص</span>(<span class="var">الناتج</span>))
+
+<span class="fn">جدول_ضرب</span>(<span class="num">7</span>)</div>
+    </div>
+
+    <div class="ref-section">
+      <div class="ref-title">5 — برنامج إدارة قائمة مهام</div>
+      <div class="syntax-block"><span class="cmt"># برنامج إدارة المهام باللغة العربية</span>
+<span class="kw">متغير</span> <span class="var">المهام</span> = []
+
+<span class="kw">دالة</span> <span class="fn">أضف_مهمة</span>(<span class="var">المهمة</span>):
+    <span class="fn">أضف_إلى</span>(<span class="var">المهام</span>, <span class="var">المهمة</span>)
+    <span class="kw">اطبع</span>(<span class="str">"✓ تمت إضافة: "</span> + <span class="var">المهمة</span>)
+
+<span class="kw">دالة</span> <span class="fn">اعرض_المهام</span>():
+    <span class="kw">إذا</span> <span class="fn">طول</span>(<span class="var">المهام</span>) == <span class="num">0</span>:
+        <span class="kw">اطبع</span>(<span class="str">"لا توجد مهام"</span>)
+        <span class="kw">أرجع</span>
+    <span class="kw">كرّر</span> <span class="var">ع</span> <span class="kw">في</span> <span class="fn">نطاق</span>(<span class="num">0</span>, <span class="fn">طول</span>(<span class="var">المهام</span>)):
+        <span class="kw">اطبع</span>(<span class="fn">حوّل_نص</span>(<span class="var">ع</span> + <span class="num">1</span>) + <span class="str">". "</span> + <span class="var">المهام</span>[<span class="var">ع</span>])
+
+<span class="fn">أضف_مهمة</span>(<span class="str">"قراءة الأخبار"</span>)
+<span class="fn">أضف_مهمة</span>(<span class="str">"تعلم لغة الضاد"</span>)
+<span class="fn">أضف_مهمة</span>(<span class="str">"ممارسة الرياضة"</span>)
+<span class="fn">اعرض_المهام</span>()</div>
+    </div>
+  </div>
+
+  <!-- Interpreter Tab -->
+  <div id="tab-interpreter" class="section">
+    <div class="info-box">محاكي لغة الضاد مكتوب بالكامل بـ JavaScript — يعمل داخل المتصفح مباشرة</div>
+
+    <div class="flow-steps">
+      <div class="flow-step">
+        <div class="step-num">1</div>
+        <div class="step-content">
+          <div class="step-title">المحلل اللغوي — Lexer</div>
+          <div class="step-desc">يحوّل النص العربي إلى رموز (tokens): كلمات مفتاحية، معرّفات، أرقام، نصوص</div>
+        </div>
+      </div>
+      <div class="flow-step">
+        <div class="step-num">2</div>
+        <div class="step-content">
+          <div class="step-title">المحلل النحوي — Parser</div>
+          <div class="step-desc">يبني شجرة AST من الرموز، ويتحقق من صحة القواعد النحوية</div>
+        </div>
+      </div>
+      <div class="flow-step">
+        <div class="step-num">3</div>
+        <div class="step-content">
+          <div class="step-title">بيئة التنفيذ — Environment</div>
+          <div class="step-desc">يدير المتغيرات والدوال والنطاقات (scopes) أثناء التشغيل</div>
+        </div>
+      </div>
+      <div class="flow-step">
+        <div class="step-num">4</div>
+        <div class="step-content">
+          <div class="step-title">المُقيّم — Evaluator</div>
+          <div class="step-desc">يمشي على الشجرة وينفّذ كل عقدة: تعريفات، شروط، حلقات، استدعاءات</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section-divider"></div>
+
+    <div class="ref-title" style="margin-bottom: 10px;">تفاصيل المحاكي الحالي</div>
+    <div class="docs-grid">
+      <div class="card">
+        <div class="card-title"><span class="badge badge-green">مدعوم</span></div>
+        <table class="kw-table">
+          <tr><td>المتغيرات بأنواعها</td></tr>
+          <tr><td>الدوال والاستدعاء</td></tr>
+          <tr><td>الشروط (إذا/وإلا إذا/غير ذلك)</td></tr>
+          <tr><td>حلقة كرّر مع نطاق()</td></tr>
+          <tr><td>حلقة طالما</td></tr>
+          <tr><td>القوائم والقواميس</td></tr>
+          <tr><td>اطبع() وعمليات النص</td></tr>
+          <tr><td>العمليات الحسابية</td></tr>
+          <tr><td>أرجع من الدوال</td></tr>
+          <tr><td>التعليقات</td></tr>
+        </table>
+      </div>
+      <div class="card">
+        <div class="card-title"><span class="badge badge-amber">قيد التطوير</span></div>
+        <table class="kw-table">
+          <tr><td>الفئات والوراثة</td></tr>
+          <tr><td>نظام الاستيراد</td></tr>
+          <tr><td>معالجة الأخطاء</td></tr>
+          <tr><td>ادخل() التفاعلي</td></tr>
+          <tr><td>الوحدات المدمجة</td></tr>
+          <tr><td>المولّدات</td></tr>
+          <tr><td>الزخرفات</td></tr>
+          <tr><td>المعالجة غير المتزامنة</td></tr>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- Guide Tab -->
+  <div id="tab-guide" class="section">
+    <div class="ref-section">
+      <div class="ref-title">مبادئ التصميم</div>
+      <div class="card" style="margin-bottom: 12px;">
+        <p style="font-size: 13px; color: var(--color-text-secondary); line-height: 1.8;">لغة الضاد مبنية على ثلاثة مبادئ: الوضوح (كل جملة قابلة للقراءة كعبارة عربية طبيعية)، التدرّج (تناسب المبتدئين والمحترفين)، والقوة (قادرة على الذكاء الاصطناعي وتحليل البيانات والتطبيقات الحديثة).</p>
+      </div>
+    </div>
+
+    <div class="ref-section">
+      <div class="ref-title">أفضل الممارسات</div>
+      <div class="info-box">استخدم أسماء عربية واضحة للمتغيرات مثل: الطول، العدد_الكلي، قائمة_الطلاب</div>
+      <div class="info-box">أضف تعليقاً في بداية كل دالة يصف وظيفتها</div>
+      <div class="warn-box">تجنّب الأسماء المختصرة أو الغامضة مثل: أ، ب، ج — استخدم أسماء ذات معنى</div>
+      <div class="info-box">استخدم المسافة البادئة (4 مسافات) بشكل منتظم لكل كتلة كود</div>
+    </div>
+
+    <div class="ref-section">
+      <div class="ref-title">مقارنة مع Python</div>
+      <table class="kw-table" style="border: 0.5px solid var(--color-border-tertiary); border-radius: var(--border-radius-md); overflow: hidden;">
+        <tr style="background: var(--color-background-secondary);">
+          <td style="font-weight: 500; padding: 8px 12px; font-size: 13px;">الميزة</td>
+          <td style="font-weight: 500; padding: 8px 12px; font-size: 13px;">Python</td>
+          <td style="font-weight: 500; padding: 8px 12px; font-size: 13px;">لغة الضاد</td>
+        </tr>
+        <tr><td style="padding: 7px 12px; font-size: 13px;">الطباعة</td><td style="padding: 7px 12px; font-size: 13px; font-family: var(--font-mono);">print("مرحبا")</td><td style="padding: 7px 12px; font-size: 13px; font-family: var(--font-mono);">اطبع("مرحبا")</td></tr>
+        <tr><td style="padding: 7px 12px; font-size: 13px;">الدالة</td><td style="padding: 7px 12px; font-size: 13px; font-family: var(--font-mono);">def f(x):</td><td style="padding: 7px 12px; font-size: 13px; font-family: var(--font-mono);">دالة ف(س):</td></tr>
+        <tr><td style="padding: 7px 12px; font-size: 13px;">الشرط</td><td style="padding: 7px 12px; font-size: 13px; font-family: var(--font-mono);">if x > 0:</td><td style="padding: 7px 12px; font-size: 13px; font-family: var(--font-mono);">إذا س > 0:</td></tr>
+        <tr><td style="padding: 7px 12px; font-size: 13px;">الحلقة</td><td style="padding: 7px 12px; font-size: 13px; font-family: var(--font-mono);">for i in range(5):</td><td style="padding: 7px 12px; font-size: 13px; font-family: var(--font-mono);">كرّر ع في نطاق(5):</td></tr>
+        <tr><td style="padding: 7px 12px; font-size: 13px;">الإرجاع</td><td style="padding: 7px 12px; font-size: 13px; font-family: var(--font-mono);">return x</td><td style="padding: 7px 12px; font-size: 13px; font-family: var(--font-mono);">أرجع س</td></tr>
+        <tr><td style="padding: 7px 12px; font-size: 13px;">الاستيراد</td><td style="padding: 7px 12px; font-size: 13px; font-family: var(--font-mono);">import math</td><td style="padding: 7px 12px; font-size: 13px; font-family: var(--font-mono);">استورد رياضيات</td></tr>
+      </table>
+    </div>
+
+    <div class="ref-section">
+      <div class="ref-title">خارطة تطوير اللغة</div>
+      <div class="flow-steps">
+        <div class="flow-step">
+          <div class="step-num" style="background: var(--c-teal);">✓</div>
+          <div class="step-content"><div class="step-title">المرحلة الأولى</div><div class="step-desc">تصميم القواعد النحوية الأساسية + المحاكي التفاعلي</div></div>
+        </div>
+        <div class="flow-step">
+          <div class="step-num" style="background: var(--c-amber);">2</div>
+          <div class="step-content"><div class="step-title">المرحلة الثانية</div><div class="step-desc">الفئات، الوحدات المدمجة، معالجة الملفات، الشبكة</div></div>
+        </div>
+        <div class="flow-step">
+          <div class="step-num">3</div>
+          <div class="step-content"><div class="step-title">المرحلة الثالثة</div><div class="step-desc">مكتبات الذكاء الاصطناعي، تحليل البيانات، تطوير الويب</div></div>
+        </div>
+        <div class="flow-step">
+          <div class="step-num">4</div>
+          <div class="step-content"><div class="step-title">المرحلة الرابعة</div><div class="step-desc">مترجم حقيقي، بيئة تطوير متكاملة، مجتمع مفتوح</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+const EXAMPLES = {
+  hello: `اطبع("مرحباً يا عالم!")
+اطبع("أهلاً بك في لغة الضاد")`,
+
+  function: `دالة مساحة_مستطيل(الطول, العرض):
+    متغير المساحة = الطول * العرض
+    أرجع المساحة
+
+متغير ناتج = مساحة_مستطيل(5, 3)
+اطبع("المساحة: " + حوّل_نص(ناتج))
+
+دالة مرحب(الاسم):
+    اطبع("أهلاً وسهلاً يا " + الاسم)
+
+مرحب("محمد")
+مرحب("سارة")`,
+
+  condition: `متغير الدرجة = 87
+
+إذا الدرجة >= 90:
+    اطبع("ممتاز")
+وإلا إذا الدرجة >= 80:
+    اطبع("جيد جداً")
+وإلا إذا الدرجة >= 70:
+    اطبع("جيد")
+غير ذلك:
+    اطبع("مقبول")
+
+اطبع("درجتك: " + حوّل_نص(الدرجة))`,
+
+  loop: `اطبع("جدول ضرب الرقم 5:")
+كرّر ع في نطاق(1, 11):
+    متغير الناتج = 5 * ع
+    اطبع("5 × " + حوّل_نص(ع) + " = " + حوّل_نص(الناتج))`,
+
+  list: `متغير الفواكه = ["تفاح", "موز", "برتقال"]
+أضف_إلى(الفواكه, "عنب")
+أضف_إلى(الفواكه, "مانجو")
+
+اطبع("عدد الفواكه: " + حوّل_نص(طول(الفواكه)))
+كرّر ع في نطاق(0, طول(الفواكه)):
+    اطبع(حوّل_نص(ع + 1) + ". " + الفواكه[ع])`,
+
+  dict: `متغير الطالب = {"الاسم": "أحمد", "العمر": 20, "التخصص": "هندسة"}
+
+اطبع("الاسم: " + الطالب["الاسم"])
+اطبع("العمر: " + حوّل_نص(الطالب["العمر"]))
+اطبع("التخصص: " + الطالب["التخصص"])`,
+
+  full: `# برنامج إدارة المهام
+متغير المهام = []
+متغير المهام_المكتملة = []
+
+دالة أضف_مهمة(المهمة):
+    أضف_إلى(المهام, المهمة)
+    اطبع("✓ أُضيفت: " + المهمة)
+
+دالة أنجز_مهمة(الرقم):
+    إذا الرقم >= 1 و الرقم <= طول(المهام):
+        متغير المهمة = المهام[الرقم - 1]
+        أضف_إلى(المهام_المكتملة, المهمة)
+        اطبع("✅ أُنجزت: " + المهمة)
+    غير ذلك:
+        اطبع("رقم غير صحيح")
+
+دالة اعرض_المهام():
+    اطبع("--- قائمة المهام ---")
+    إذا طول(المهام) == 0:
+        اطبع("لا توجد مهام")
+    غير ذلك:
+        كرّر ع في نطاق(0, طول(المهام)):
+            اطبع(حوّل_نص(ع + 1) + ". " + المهام[ع])
+    اطبع("مكتمل: " + حوّل_نص(طول(المهام_المكتملة)) + " مهمة")
+
+أضف_مهمة("قراءة الأخبار")
+أضف_مهمة("تعلم لغة الضاد")
+أضف_مهمة("ممارسة الرياضة")
+أضف_مهمة("مراجعة البريد")
+أنجز_مهمة(2)
+أنجز_مهمة(3)
+اعرض_المهام()`
+};
+
+function loadExample(name) {
+  document.getElementById('code-editor').value = EXAMPLES[name];
+  document.getElementById('output').innerHTML = '<span style="color: var(--color-text-secondary)">جاهز للتشغيل...</span>';
+}
+
+function showTab(name) {
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  event.target.classList.add('active');
+  document.getElementById('tab-' + name).classList.add('active');
+}
+
+function clearOutput() {
+  document.getElementById('output').innerHTML = '<span style="color: var(--color-text-secondary)">تم المسح...</span>';
+}
+
+// ─── INTERPRETER ───
+class DadInterpreter {
+  constructor() {
+    this.output = [];
+    this.globalEnv = new Environment(null);
+    this.setupBuiltins();
+  }
+
+  setupBuiltins() {
+    const env = this.globalEnv;
+    env.set('صحيح', true);
+    env.set('خطأ', false);
+    env.set('فارغ', null);
+    env.set('اطبع', (...args) => { this.output.push(args.map(a => this.toStr(a)).join(' ')); return null; });
+    env.set('حوّل_نص', (x) => this.toStr(x));
+    env.set('حوّل_رقم', (x) => Number(x));
+    env.set('طول', (x) => Array.isArray(x) ? x.length : (typeof x === 'string' ? x.length : 0));
+    env.set('نطاق', (a, b) => { if (b === undefined) { const r = []; for (let i = 0; i < a; i++) r.push(i); return r; } const r = []; for (let i = a; i < b; i++) r.push(i); return r; });
+    env.set('أضف_إلى', (arr, val) => { if (Array.isArray(arr)) arr.push(val); return null; });
+    env.set('مجموع', (arr) => Array.isArray(arr) ? arr.reduce((a, b) => a + b, 0) : 0);
+    env.set('أكبر', (arr) => Array.isArray(arr) ? Math.max(...arr) : arr);
+    env.set('أصغر', (arr) => Array.isArray(arr) ? Math.min(...arr) : arr);
+    env.set('رتّب', (arr) => [...arr].sort((a, b) => a - b));
+  }
+
+  toStr(v) {
+    if (v === null || v === undefined) return 'فارغ';
+    if (v === true) return 'صحيح';
+    if (v === false) return 'خطأ';
+    if (Array.isArray(v)) return '[' + v.map(x => this.toStr(x)).join(', ') + ']';
+    if (typeof v === 'object') return '{' + Object.entries(v).map(([k,vv]) => k + ': ' + this.toStr(vv)).join(', ') + '}';
+    return String(v);
+  }
+
+  run(code) {
+    this.output = [];
+    this.globalEnv = new Environment(null);
+    this.setupBuiltins();
+    try {
+      const lines = code.split('\n');
+      const tokens = this.tokenize(lines);
+      const ast = this.parse(tokens);
+      this.execBlock(ast, this.globalEnv);
+      return { ok: true, output: this.output };
+    } catch (e) {
+      return { ok: false, output: this.output, error: e.message };
+    }
+  }
+
+  tokenize(lines) {
+    const tokens = [];
+    for (let ln = 0; ln < lines.length; ln++) {
+      let line = lines[ln];
+      const commentIdx = line.indexOf('#');
+      if (commentIdx >= 0) line = line.slice(0, commentIdx);
+      const trimmed = line.trimEnd();
+      if (!trimmed.trim()) continue;
+      const indent = trimmed.length - trimmed.trimStart().length;
+      tokens.push({ type: 'LINE', indent, raw: trimmed.trim(), ln });
+    }
+    return tokens;
+  }
+
+  parse(tokens) {
+    return this.parseBlock(tokens, 0, 0).nodes;
+  }
+
+  parseBlock(tokens, start, baseIndent) {
+    const nodes = [];
+    let i = start;
+    while (i < tokens.length && tokens[i].indent >= baseIndent) {
+      if (tokens[i].indent > baseIndent) { i++; continue; }
+      const result = this.parseLine(tokens, i, baseIndent);
+      if (result) { nodes.push(result.node); i = result.next; }
+      else i++;
+    }
+    return { nodes, next: i };
+  }
+
+  parseLine(tokens, i, baseIndent) {
+    const tok = tokens[i];
+    const raw = tok.raw;
+
+    if (raw.startsWith('دالة ')) {
+      const m = raw.match(/^دالة\s+(\S+)\((.*?)\)\s*:$/);
+      if (!m) throw new Error('خطأ في تعريف الدالة: ' + raw);
+      const name = m[1];
+      const params = m[2] ? m[2].split(',').map(p => p.trim()).filter(Boolean) : [];
+      const body = this.parseBlock(tokens, i+1, baseIndent+4);
+      return { node: { type: 'FuncDef', name, params, body: body.nodes }, next: body.next };
+    }
+
+    if (raw.startsWith('متغير ') || raw.startsWith('ثابت ')) {
+      const rest = raw.replace(/^(متغير|ثابت)\s+/, '');
+      const eqIdx = rest.indexOf('=');
+      if (eqIdx < 0) throw new Error('خطأ في تعريف المتغير: ' + raw);
+      const varName = rest.slice(0, eqIdx).trim();
+      const expr = rest.slice(eqIdx+1).trim();
+      return { node: { type: 'VarDef', name: varName, expr }, next: i+1 };
+    }
+
+    if (raw.startsWith('إذا ') && raw.endsWith(':')) {
+      const cond = raw.slice(3, -1).trim();
+      const body = this.parseBlock(tokens, i+1, baseIndent+4);
+      let next = body.next;
+      const branches = [{ cond, body: body.nodes }];
+      while (next < tokens.length && tokens[next].indent === baseIndent) {
+        if (tokens[next].raw.startsWith('وإلا إذا ') && tokens[next].raw.endsWith(':')) {
+          const c2 = tokens[next].raw.slice(8, -1).trim();
+          const b2 = this.parseBlock(tokens, next+1, baseIndent+4);
+          branches.push({ cond: c2, body: b2.nodes });
+          next = b2.next;
+        } else if (tokens[next].raw === 'غير ذلك:') {
+          const bEl = this.parseBlock(tokens, next+1, baseIndent+4);
+          branches.push({ cond: null, body: bEl.nodes });
+          next = bEl.next;
+          break;
+        } else break;
+      }
+      return { node: { type: 'IfStmt', branches }, next };
+    }
+
+    if (raw.startsWith('كرّر ') && raw.includes(' في ') && raw.endsWith(':')) {
+      const inner = raw.slice(4, -1).trim();
+      const fi = inner.indexOf(' في ');
+      const varN = inner.slice(0, fi).trim();
+      const iterExpr = inner.slice(fi+4).trim();
+      const body = this.parseBlock(tokens, i+1, baseIndent+4);
+      return { node: { type: 'ForStmt', var: varN, iterExpr, body: body.nodes }, next: body.next };
+    }
+
+    if (raw.startsWith('طالما ') && raw.endsWith(':')) {
+      const cond = raw.slice(5, -1).trim();
+      const body = this.parseBlock(tokens, i+1, baseIndent+4);
+      return { node: { type: 'WhileStmt', cond, body: body.nodes }, next: body.next };
+    }
+
+    if (raw === 'توقف') return { node: { type: 'Break' }, next: i+1 };
+    if (raw === 'تابع') return { node: { type: 'Continue' }, next: i+1 };
+    if (raw.startsWith('أرجع ')) return { node: { type: 'Return', expr: raw.slice(5).trim() }, next: i+1 };
+    if (raw === 'أرجع') return { node: { type: 'Return', expr: null }, next: i+1 };
+
+    const eqM = raw.match(/^([^=<>!]+?)\s*=\s*(?!=)(.+)$/);
+    if (eqM && !raw.startsWith('إذا') && !raw.startsWith('وإلا')) {
+      return { node: { type: 'Assign', target: eqM[1].trim(), expr: eqM[2].trim() }, next: i+1 };
+    }
+
+    return { node: { type: 'Expr', expr: raw }, next: i+1 };
+  }
+
+  execBlock(nodes, env) {
+    for (const node of nodes) {
+      const r = this.execNode(node, env);
+      if (r && r.type === 'return') return r;
+      if (r && r.type === 'break') return r;
+      if (r && r.type === 'continue') return r;
+    }
+    return null;
+  }
+
+  execNode(node, env) {
+    switch (node.type) {
+      case 'FuncDef':
+        env.set(node.name, { __func__: true, params: node.params, body: node.body, closure: env });
+        return null;
+
+      case 'VarDef':
+        env.set(node.name, this.evalExpr(node.expr, env));
+        return null;
+
+      case 'Assign': {
+        const arrM = node.target.match(/^(.+)\[(.+)\]$/);
+        if (arrM) {
+          const obj = this.evalExpr(arrM[1].trim(), env);
+          const key = this.evalExpr(arrM[2].trim(), env);
+          obj[key] = this.evalExpr(node.expr, env);
+        } else {
+          env.setExisting(node.target, this.evalExpr(node.expr, env));
+        }
+        return null;
+      }
+
+      case 'IfStmt':
+        for (const br of node.branches) {
+          if (br.cond === null || this.evalExpr(br.cond, env)) {
+            return this.execBlock(br.body, new Environment(env));
+          }
+        }
+        return null;
+
+      case 'ForStmt': {
+        const iter = this.evalExpr(node.iterExpr, env);
+        if (!Array.isArray(iter)) throw new Error('كرّر يتوقع قائمة');
+        for (const val of iter) {
+          const loopEnv = new Environment(env);
+          loopEnv.set(node.var, val);
+          const r = this.execBlock(node.body, loopEnv);
+          if (r && r.type === 'break') break;
+          if (r && r.type === 'return') return r;
+        }
+        return null;
+      }
+
+      case 'WhileStmt': {
+        let guard = 0;
+        while (this.evalExpr(node.cond, env)) {
+          if (++guard > 10000) throw new Error('حلقة لا نهائية - توقف');
+          const r = this.execBlock(node.body, new Environment(env));
+          if (r && r.type === 'break') break;
+          if (r && r.type === 'return') return r;
+        }
+        return null;
+      }
+
+      case 'Return':
+        return { type: 'return', value: node.expr ? this.evalExpr(node.expr, env) : null };
+
+      case 'Break': return { type: 'break' };
+      case 'Continue': return { type: 'continue' };
+
+      case 'Expr':
+        this.evalExpr(node.expr, env);
+        return null;
+    }
+  }
+
+  evalExpr(expr, env) {
+    expr = expr.trim();
+
+    // String literal
+    if ((expr.startsWith('"') && expr.endsWith('"')) || (expr.startsWith("'") && expr.endsWith("'"))) {
+      return expr.slice(1, -1);
+    }
+
+    // Number
+    if (/^-?\d+(\.\d+)?$/.test(expr)) return parseFloat(expr);
+
+    // Boolean / null
+    if (expr === 'صحيح') return true;
+    if (expr === 'خطأ') return false;
+    if (expr === 'فارغ') return null;
+
+    // List literal
+    if (expr.startsWith('[') && expr.endsWith(']')) {
+      const inner = expr.slice(1, -1).trim();
+      if (!inner) return [];
+      return this.splitArgs(inner).map(a => this.evalExpr(a, env));
+    }
+
+    // Dict literal
+    if (expr.startsWith('{') && expr.endsWith('}')) {
+      const inner = expr.slice(1, -1).trim();
+      if (!inner) return {};
+      const obj = {};
+      for (const pair of this.splitArgs(inner)) {
+        const ci = pair.indexOf(':');
+        const k = this.evalExpr(pair.slice(0, ci).trim(), env);
+        obj[k] = this.evalExpr(pair.slice(ci+1).trim(), env);
+      }
+      return obj;
+    }
+
+    // Index access
+    const idxM = expr.match(/^(.+)\[(.+)\]$/);
+    if (idxM) {
+      const obj = this.evalExpr(idxM[1].trim(), env);
+      const key = this.evalExpr(idxM[2].trim(), env);
+      if (obj === null || obj === undefined) throw new Error('لا يمكن الوصول لعنصر في قيمة فارغة');
+      return obj[key];
+    }
+
+    // Function call
+    const callM = expr.match(/^([^(]+)\((.*)\)$/s);
+    if (callM) {
+      const fnName = callM[1].trim();
+      const argsStr = callM[2].trim();
+      const args = argsStr ? this.splitArgs(argsStr).map(a => this.evalExpr(a, env)) : [];
+
+      // Member access call
+      const dotM = fnName.match(/^(.+)\.(.+)$/);
+      if (dotM) {
+        const obj = this.evalExpr(dotM[1], env);
+        // handled via builtins only for now
+      }
+
+      const fn = env.get(fnName);
+      if (fn === undefined) throw new Error('الدالة غير معرّفة: ' + fnName);
+      if (typeof fn === 'function') return fn(...args);
+      if (fn && fn.__func__) {
+        const fnEnv = new Environment(fn.closure);
+        fn.params.forEach((p, idx) => fnEnv.set(p, args[idx] !== undefined ? args[idx] : null));
+        const r = this.execBlock(fn.body, fnEnv);
+        return (r && r.type === 'return') ? r.value : null;
+      }
+      throw new Error('ليست دالة: ' + fnName);
+    }
+
+    // Logical operators (ليس، و، أو)
+    if (expr.startsWith('ليس ')) return !this.evalExpr(expr.slice(4).trim(), env);
+
+    // Binary ops — find rightmost binary operator
+    const ops = [' أو ', ' و ', ' == ', ' != ', ' >= ', ' <= ', ' > ', ' < ', ' + ', ' - ', ' * ', ' / ', ' % '];
+    for (const op of ops) {
+      const idx = this.findOp(expr, op);
+      if (idx >= 0) {
+        const left = this.evalExpr(expr.slice(0, idx).trim(), env);
+        const right = this.evalExpr(expr.slice(idx + op.length).trim(), env);
+        switch (op.trim()) {
+          case 'أو': return left || right;
+          case 'و': return left && right;
+          case '==': return left == right;
+          case '!=': return left != right;
+          case '>=': return left >= right;
+          case '<=': return left <= right;
+          case '>': return left > right;
+          case '<': return left < right;
+          case '+': return typeof left === 'string' || typeof right === 'string' ? String(left) + String(right) : left + right;
+          case '-': return left - right;
+          case '*': return left * right;
+          case '/': if (right === 0) throw new Error('قسمة على صفر'); return left / right;
+          case '%': return left % right;
+        }
+      }
+    }
+
+    // Identifier
+    const val = env.get(expr);
+    if (val !== undefined) return val;
+    throw new Error('متغير غير معرّف: ' + expr);
+  }
+
+  findOp(expr, op) {
+    let depth = 0;
+    for (let i = expr.length - op.length; i >= 0; i--) {
+      const ch = expr[i];
+      if (ch === ')' || ch === ']' || ch === '}') depth++;
+      else if (ch === '(' || ch === '[' || ch === '{') depth--;
+      if (depth === 0 && expr.slice(i, i + op.length) === op) return i;
+    }
+    return -1;
+  }
+
+  splitArgs(str) {
+    const args = [];
+    let depth = 0, start = 0, inStr = false, strChar = '';
+    for (let i = 0; i < str.length; i++) {
+      const ch = str[i];
+      if (inStr) { if (ch === strChar) inStr = false; continue; }
+      if (ch === '"' || ch === "'") { inStr = true; strChar = ch; continue; }
+      if (ch === '(' || ch === '[' || ch === '{') depth++;
+      else if (ch === ')' || ch === ']' || ch === '}') depth--;
+      else if (ch === ',' && depth === 0) {
+        args.push(str.slice(start, i).trim());
+        start = i + 1;
+      }
+    }
+    const last = str.slice(start).trim();
+    if (last) args.push(last);
+    return args;
+  }
+}
+
+class Environment {
+  constructor(parent) { this.vars = {}; this.parent = parent; }
+  get(name) {
+    if (name in this.vars) return this.vars[name];
+    if (this.parent) return this.parent.get(name);
+    return undefined;
+  }
+  set(name, value) { this.vars[name] = value; }
+  setExisting(name, value) {
+    if (name in this.vars) { this.vars[name] = value; return; }
+    if (this.parent) { this.parent.setExisting(name, value); return; }
+    this.vars[name] = value;
+  }
+}
+
+const interpreter = new DadInterpreter();
+
+function runCode() {
+  const code = document.getElementById('code-editor').value;
+  if (!code.trim()) {
+    document.getElementById('output').innerHTML = '<span style="color: var(--color-text-secondary)">لا يوجد كود للتشغيل</span>';
+    return;
+  }
+  const result = interpreter.run(code);
+  const out = document.getElementById('output');
+  if (result.output.length === 0 && result.ok) {
+    out.innerHTML = '<span style="color: var(--color-text-secondary)">تم التنفيذ بنجاح (لا يوجد إخراج)</span>';
+  } else {
+    out.innerHTML = result.output.map(line => `<div class="output-line output-success">${escHtml(line)}</div>`).join('');
+  }
+  if (!result.ok) {
+    out.innerHTML += `<div class="output-line output-error">خطأ: ${escHtml(result.error)}</div>`;
+  }
+}
+
+function escHtml(s) {
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+
+loadExample('hello');
+</script>
